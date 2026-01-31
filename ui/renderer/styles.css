@@ -1,0 +1,358 @@
+/**
+ * J.A.R.V.I.S. Holographic UI Styles
+ */
+
+:root {
+    --bg-dark: rgba(10, 12, 20, 0.85);
+    --glass: rgba(30, 40, 60, 0.4);
+    --glass-border: rgba(100, 150, 255, 0.2);
+    --primary: #00d4ff;
+    --primary-glow: rgba(0, 212, 255, 0.4);
+    --secondary: #7b68ee;
+    --text: #e0e6ed;
+    --text-dim: rgba(180, 200, 220, 0.7);
+    --success: #50fa7b;
+    --warning: #f1fa8c;
+    --error: #ff5555;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: transparent;
+    color: var(--text);
+    overflow: hidden;
+    user-select: none;
+}
+
+.jarvis-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--bg-dark);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+}
+
+/* Title Bar */
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(20, 25, 40, 0.6);
+    -webkit-app-region: drag;
+}
+
+.title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+    -webkit-app-region: no-drag;
+}
+
+.control-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 50%;
+    background: var(--glass);
+    color: var(--text-dim);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    background: rgba(100, 150, 255, 0.3);
+    color: var(--text);
+}
+
+.control-btn.close:hover {
+    background: rgba(255, 85, 85, 0.4);
+}
+
+/* Orb Container */
+.orb-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+}
+
+.orb {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.orb-inner {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 30% 30%, var(--primary), #0066cc);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 40px var(--primary-glow),
+        0 0 80px var(--primary-glow),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.orb-rings {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid var(--primary);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: ring-rotate 8s linear infinite;
+}
+
+.ring-1 {
+    width: 80px;
+    height: 80px;
+    margin: -40px 0 0 -40px;
+    animation-duration: 6s;
+}
+
+.ring-2 {
+    width: 90px;
+    height: 90px;
+    margin: -45px 0 0 -45px;
+    animation-duration: 8s;
+    animation-direction: reverse;
+}
+
+.ring-3 {
+    width: 100px;
+    height: 100px;
+    margin: -50px 0 0 -50px;
+    animation-duration: 10s;
+}
+
+.status-text {
+    margin-top: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Animations */
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 
+            0 0 40px var(--primary-glow),
+            0 0 80px var(--primary-glow),
+            inset 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+        box-shadow: 
+            0 0 50px var(--primary-glow),
+            0 0 100px var(--primary-glow),
+            inset 0 0 25px rgba(255, 255, 255, 0.3);
+    }
+}
+
+@keyframes ring-rotate {
+    from { transform: rotateX(60deg) rotateZ(0deg); }
+    to { transform: rotateX(60deg) rotateZ(360deg); }
+}
+
+/* Thinking state */
+.orb.thinking .orb-inner {
+    animation: thinking 0.5s ease-in-out infinite;
+}
+
+@keyframes thinking {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1);
+        background: radial-gradient(circle at 30% 30%, var(--primary), #0066cc);
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.1);
+        background: radial-gradient(circle at 30% 30%, #50fa7b, var(--primary));
+    }
+}
+
+/* Listening state */
+.orb.listening .orb-inner {
+    animation: listening 1s ease-in-out infinite;
+    background: radial-gradient(circle at 30% 30%, #50fa7b, var(--primary));
+}
+
+@keyframes listening {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* Messages Area */
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.messages::-webkit-scrollbar {
+    width: 4px;
+}
+
+.messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 2px;
+}
+
+.message {
+    max-width: 90%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.assistant {
+    align-self: flex-start;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-bottom-left-radius: 4px;
+}
+
+.message.assistant code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 13px;
+}
+
+.message.tool {
+    align-self: flex-start;
+    background: rgba(80, 250, 123, 0.1);
+    border: 1px solid rgba(80, 250, 123, 0.3);
+    font-size: 12px;
+    color: var(--success);
+}
+
+/* Input Area */
+.input-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    background: rgba(20, 25, 40, 0.6);
+}
+
+.message-input {
+    flex: 1;
+    padding: 12px 16px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.message-input::placeholder {
+    color: var(--text-dim);
+}
+
+.message-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.mic-btn, .send-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: var(--glass);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.mic-btn:hover, .send-btn:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.mic-btn.recording {
+    background: var(--error);
+    animation: recording-pulse 1s ease-in-out infinite;
+}
+
+@keyframes recording-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.mic-btn svg, .send-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Empty state */
+.messages:empty::after {
+    content: 'Press Cmd+J to toggle • Ask me anything';
+    display: block;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-top: 50%;
+}
